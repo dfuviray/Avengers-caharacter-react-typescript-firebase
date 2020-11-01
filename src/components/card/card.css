@@ -1,0 +1,25 @@
+.Card {
+  display: flex;
+  border: 1px solid #101935;
+  margin-bottom: 10px;
+}
+
+.Image {
+}
+.Image img {
+  height: 200px;
+}
+
+.Details {
+  align-self: center;
+  margin-left: 10px;
+}
+.Details p {
+  font-size: 48px;
+}
+
+.Buttons {
+}
+.Buttons button {
+  margin-right: 5px;
+}
