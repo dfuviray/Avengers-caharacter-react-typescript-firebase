@@ -1,0 +1,29 @@
+.Modal {
+  display: none;
+  position: absolute;
+  width: 100%;
+  height: calc(100vh / 2);
+  background-color: white;
+  padding: 10px;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+}
+.Modal.active {
+  display: block;
+}
+
+input {
+  margin-bottom: 10px;
+}
+
+button {
+  margin-right: 5px;
+}
+
+.Title {
+  text-align: center;
+  font-size: 34px;
+  margin-bottom: 10px;
+}

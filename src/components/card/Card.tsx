@@ -3,10 +3,10 @@ import './card.css'
 
 interface Props {
     imgSrc: string,
-    title: string
+    title: string,
 }
 
-const Card: React.FC<Props> = ({imgSrc, title}) => {
+const Card: React.FC<Props> = ({ imgSrc, title}) => {
     return (
         <div className="Card">
             <div className="Image">
