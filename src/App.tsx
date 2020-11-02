@@ -2,7 +2,9 @@ import React, {useState, useEffect} from 'react';
 import './App.css';
 
 import Card from './components/card/Card'
+import Loading from './components/loading/Loading'
 import Modal from './components/modal/Modal';
+
 import useApi from './hooks/useApi'
 
 interface ICharacters {
@@ -30,7 +32,7 @@ function App() {
   return (
     <div className="App">
       <Modal handleClick={() => setActive(false)} isActive={active} title="Edit Superhero" />
-      {loading ? <div className="Message">Loading</div> : renderCards()}
+      {loading ? <div className="Message"><Loading loading={loading}/></div> : renderCards()}
       {error && <div className="Message">Could not retrieve data</div>}
       {!loading && empty && <div className="Message">Empty data</div>}
     </div>
