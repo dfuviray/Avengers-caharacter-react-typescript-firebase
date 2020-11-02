@@ -1,17 +1,38 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import './App.css';
 
 import Card from './components/card/Card'
 import Modal from './components/modal/Modal';
+import useApi from './hooks/useApi'
+
+interface ICharacters {
+  id: string,
+  source: string,
+  title: string
+}
 
 function App() {
+  const {data, error, loading} = useApi()
+  const [characters, setCharacters] = useState<ICharacters[]>([]);
   const [active, setActive] = useState<boolean>(false)
+
+  useEffect(() => {
+    setCharacters(data)
+  },[data])
+
+  const renderCards = () => {
+    if(!characters) return
+    return characters.map(c => <Card key={c.id} imgSrc={c.source} title={c.title} />)
+  }
+
+  const empty = characters.length === 0;
 
   return (
     <div className="App">
-    <Modal handleClick={() => setActive(false)} isActive={active} title="Edit Superhero" />
-    <Card imgSrc="https://upload.wikimedia.org/wikipedia/en/a/aa/Hulk_%28circa_2019%29.png" title="Hulk" />
-    <Card imgSrc="http://www.pngall.com/wp-content/uploads/2016/05/Spider-Man-Free-Download-PNG.png" title="Spiderman" />
+      <Modal handleClick={() => setActive(false)} isActive={active} title="Edit Superhero" />
+      {loading ? <div className="Message">Loading</div> : renderCards()}
+      {error && <div className="Message">Could not retrieve data</div>}
+      {!loading && empty && <div className="Message">Empty data</div>}
     </div>
   );
 }
