@@ -18,6 +18,7 @@ function App() {
   const [characters, setCharacters] = useState<ICharacters[]>([]);
   const [active, setActive] = useState<boolean>(false)
   const [selected, setSelected] = useState<any>(null)
+  const [modalAdd, setModalAdd] = useState(false)
 
   useEffect(() => {
     setCharacters(data)
@@ -31,6 +32,7 @@ function App() {
   const handleEdit = (char) => {
     setActive(true)
     setSelected(char)
+    setModalAdd(false)
   }
 
   const handleUpdateCharacter = (id, source, title,) => {
@@ -47,7 +49,7 @@ function App() {
     db.collection('avengers-characters').doc(id).delete()
 
     handleDeleteUI(id)
-    
+
     alert('Successfully deleted')
   }
 
@@ -57,11 +59,25 @@ function App() {
     setCharacters(filteredArray)
   }
 
+  const handleAdd = () => {
+    setActive(true)
+    setModalAdd(true)
+  }
+
+  const handleAddUI = (id, source, title) => {
+    if(!id || !source || !title) return
+    
+    const array = [...characters, {id, title, source}]
+    setCharacters(array)
+  }
+
 
   const empty = characters.length === 0;
+
   return (
     <div className="App">
-      <Modal data={selected} handleUpdate={handleUpdateCharacter} handleClick={() => setActive(false)} isActive={active} title="Edit Superhero" />
+      <Modal data={selected} type={modalAdd} handleUpdate={ modalAdd ? handleAddUI : handleUpdateCharacter} handleClick={() => setActive(false)} isActive={active} title="Edit Superhero" />
+      <button className="AddButton" onClick={handleAdd}>Add Character</button>
       {loading ? <div className="Message"><Loading loading={loading}/></div> : renderCards()}
       {error && <div className="Message">Could not retrieve data</div>}
       {!loading && empty && <div className="Message">Empty data</div>}
