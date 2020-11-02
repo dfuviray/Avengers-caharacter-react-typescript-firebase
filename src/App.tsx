@@ -6,6 +6,7 @@ import Card from './components/card/Card'
 import Loading from './components/loading/Loading'
 import Modal from './components/modal/Modal';
 import useApi from './hooks/useApi'
+import Search from './components/search/Search';
 
 interface ICharacters {
   id: string,
@@ -15,11 +16,11 @@ interface ICharacters {
 
 function App() {
   const {data, error, loading} = useApi()
-  const [characters, setCharacters] = useState<ICharacters[]>([]);
+  const [characters, setCharacters] = useState<ICharacters[] | any>([]);
   const [active, setActive] = useState<boolean>(false)
   const [selected, setSelected] = useState<any>(null)
   const [modalAdd, setModalAdd] = useState(false)
-
+  const db = firebase.firestore()
   useEffect(() => {
     setCharacters(data)
   },[data])
@@ -45,7 +46,7 @@ function App() {
   const handleDelete = (id) => {
     if(!id) return
 
-    const db = firebase.firestore()
+    // const db = firebase.firestore()
     db.collection('avengers-characters').doc(id).delete()
 
     handleDeleteUI(id)
@@ -66,17 +67,27 @@ function App() {
 
   const handleAddUI = (id, source, title) => {
     if(!id || !source || !title) return
-    
+
     const array = [...characters, {id, title, source}]
     setCharacters(array)
   }
 
+  const handleSearch =  (search) => {
+    if(!search) setCharacters(data)
+
+    db.collection('avengers-characters').where("title", "==" , search.toLowerCase()).get()
+      .then((snapshot) => snapshot.docs.forEach(doc => {
+        setCharacters([doc.data()])
+      }))
+      
+  }
 
   const empty = characters.length === 0;
 
   return (
     <div className="App">
       <Modal data={selected} type={modalAdd} handleUpdate={ modalAdd ? handleAddUI : handleUpdateCharacter} handleClick={() => setActive(false)} isActive={active} title="Edit Superhero" />
+      <Search search={handleSearch} />
       <button className="AddButton" onClick={handleAdd}>Add Character</button>
       {loading ? <div className="Message"><Loading loading={loading}/></div> : renderCards()}
       {error && <div className="Message">Could not retrieve data</div>}

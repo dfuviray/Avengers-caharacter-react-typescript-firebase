@@ -1,0 +1,24 @@
+.Wrap {
+  display: flex;
+  flex-wrap: nowrap;
+}
+
+.Input-search {
+  border-top-left-radius: 3px;
+  border-bottom-left-radius: 3px;
+}
+
+.Button-search {
+  padding: 10px;
+  border-left: none;
+  border-top-right-radius: 3px;
+  border-bottom-right-radius: 3px;
+  background: rgba(16, 25, 53, 1);
+  transition: background 0.3s ease;
+  color: white;
+}
+
+.Button-search:hover,
+.Button-search:focus {
+  background: rgba(16, 25, 53, 0.7);
+}
