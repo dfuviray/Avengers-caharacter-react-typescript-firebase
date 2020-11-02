@@ -4,9 +4,10 @@ import './card.css'
 interface Props {
     imgSrc: string,
     title: string,
+    handleClick: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void
 }
 
-const Card: React.FC<Props> = ({ imgSrc, title}) => {
+const Card: React.FC<Props> = ({ imgSrc, title, handleClick}) => {
     return (
         <div className="Card">
             <div className="Image">
@@ -15,7 +16,7 @@ const Card: React.FC<Props> = ({ imgSrc, title}) => {
             <div className="Details">
                 <p>{title}</p>
                 <div className="Buttons">
-                    <button className="Edit">Edit</button>
+                    <button className="Edit" onClick={handleClick}>Edit</button>
                     <button className="Remove">Remove</button>
                 </div>
             </div>
