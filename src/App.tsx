@@ -20,9 +20,13 @@ function App() {
   const [active, setActive] = useState<boolean>(false)
   const [selected, setSelected] = useState<any>(null)
   const [modalAdd, setModalAdd] = useState(false)
+  const [sortType, setSortType] = useState(true)
+
   const db = firebase.firestore()
   useEffect(() => {
+  //  const sortedData = sort(data)
     setCharacters(data)
+    
   },[data])
 
   const renderCards = () => {
@@ -82,6 +86,24 @@ function App() {
       
   }
 
+  const sort = (data) => {
+    let sortedData;
+    
+    if(sortType) return sortedData = data.sort((a, b) => (a.title >  b.title) ? 1 : -1)
+
+    return sortedData = data.sort((a, b) => (a.title <  b.title) ? 1 : -1)
+  }
+
+  const handleSort = () => {
+    let sortedData;
+
+    if(sortType) sortedData = sort(characters)
+    else sortedData = sort(data)
+
+    setCharacters(sortedData)
+    setSortType(!sortType)
+  }
+
   const empty = characters.length === 0;
 
   return (
@@ -89,6 +111,7 @@ function App() {
       <Modal data={selected} type={modalAdd} handleUpdate={ modalAdd ? handleAddUI : handleUpdateCharacter} handleClick={() => setActive(false)} isActive={active} title="Edit Superhero" />
       <Search search={handleSearch} />
       <button className="AddButton" onClick={handleAdd}>Add Character</button>
+      <button className="AddButton" onClick={handleSort}>{sortType ? 'Ascending' : 'Descending'}</button>
       {loading ? <div className="Message"><Loading loading={loading}/></div> : renderCards()}
       {error && <div className="Message">Could not retrieve data</div>}
       {!loading && empty && <div className="Message">Empty data</div>}
