@@ -108,7 +108,7 @@ function App() {
 
   return (
     <div className="App">
-      <Modal data={selected} type={modalAdd} handleUpdate={ modalAdd ? handleAddUI : handleUpdateCharacter} handleClick={() => setActive(false)} isActive={active} title="Edit Superhero" />
+      <Modal data={selected} type={modalAdd} handleUpdate={ modalAdd ? handleAddUI : handleUpdateCharacter} handleClick={() => setActive(false)} isActive={active} title={modalAdd ? 'Add Character' : 'Edit Character'} />
       <Search search={handleSearch} />
       <button className="AddButton" onClick={handleAdd}>Add Character</button>
       <button className="AddButton" onClick={handleSort}>{sortType ? 'Ascending' : 'Descending'}</button>
