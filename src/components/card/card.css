@@ -16,6 +16,7 @@
 }
 .Details p {
   font-size: 48px;
+  text-transform: capitalize;
 }
 
 .Buttons {
